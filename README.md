@@ -23,7 +23,7 @@ A REST API for a bookstore application built with NestJS, TypeORM, and PostgreSQ
 ### Prerequisites
 
 - Docker Desktop installed and running
-- No other services running on ports 80, 3000, or 5432
+- No other services running on ports 3080, 3000, or 5432
 
 ### Running the Application
 
@@ -45,8 +45,8 @@ A REST API for a bookstore application built with NestJS, TypeORM, and PostgreSQ
 
 3. **Access the API**:
    - API (direct): `http://localhost:3000/api`
-   - API (via Nginx): `http://localhost/api`
-   - Static images: `http://localhost/images/books/`
+   - API (via Nginx): `http://localhost:3080/api`
+   - Static images: `http://localhost:3080/images/books/`
 
 ### Stopping the Application
 
@@ -96,12 +96,12 @@ Book cover images are stored in `dep/mock_public/images/books/` and served by Ng
 
 ### Accessing Images
 
-Images are accessible at: `http://localhost/images/books/{filename}.jpg`
+Images are accessible at: `http://localhost:3080/images/books/{filename}.jpg`
 
 Example:
 ```
-http://localhost/images/books/great-gatsby.jpg
-http://localhost/images/books/1984.jpg
+http://localhost:3080/images/books/great-gatsby.jpg
+http://localhost:3080/images/books/1984.jpg
 ```
 
 ### Adding New Images
@@ -136,7 +136,7 @@ NODE_ENV: development     # Environment mode
 
 ### Port Already in Use
 If you get "port already in use" errors:
-1. Check what's using the port: `netstat -ano | findstr :80` (Windows)
+1. Check what's using the port: `netstat -ano | findstr :3080` (Windows)
 2. Stop the service or change the port in `docker-compose.yml`
 
 ### Database Connection Issues
