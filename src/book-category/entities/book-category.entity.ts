@@ -1,23 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { OneToMany } from 'typeorm';
 import { Book } from '../../book/entities/book.entity';
 
-@Entity('book_categories')
-export class BookCategory {
-  @PrimaryGeneratedColumn()
-  id: number;
 
-  @Column({ unique: true })
+@Entity()
+export class BookCategory {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  @Column()
   name: string;
 
   @Column({ nullable: true })
   description: string;
-
-  @OneToMany(() => Book, (book) => book.category)
-  books: Book[];
 
   @CreateDateColumn()
   createdAt: Date;
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  @OneToMany(() => Book, (book) => book.category)
+  books: Book[]
 }

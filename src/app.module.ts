@@ -1,33 +1,25 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule } from '@nestjs/config';
 import { BookCategoryModule } from './book-category/book-category.module';
-import { BookModule } from './book/book.module';
-import { FixturesModule } from './fixtures/fixtures.module';
+import { BookModule } from './book/book.module'; // (ใส่เผื่อไว้เลยครับ จะได้ใช้ Book ได้ด้วย)
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: process.env.DB_PORT ? parseInt(process.env.DB_PORT) : 5432,
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'postgres',
-      database: process.env.DB_NAME || 'bookstore-dev',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // set to false in production
-      dropSchema: process.env.NODE_ENV === 'development' && process.env.DB_NAME?.endsWith('-dev') ? true : false,
+      host: 'localhost',
+      port: 5432,
+      username: 'admin',
+      password: 'password123',
+      database: 'bookstore_dev',
+      entities: [], 
+      synchronize: true,
+      autoLoadEntities: true, // 2. แนะนำให้เติมบรรทัดนี้ ไม่งั้น DB อาจหาตารางไม่เจอ
     }),
+    
+    // 3. เอามาใส่ตรงนี้
     BookCategoryModule,
     BookModule,
-    FixturesModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}
