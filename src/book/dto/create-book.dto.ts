@@ -35,7 +35,7 @@ export class CreateBookDto {
   @IsOptional()
   likeCount?: number;
 
-  @IsString()
+  @IsNumber()
   @IsNotEmpty()
-  categoryId: string;
+  categoryId: number;
 }

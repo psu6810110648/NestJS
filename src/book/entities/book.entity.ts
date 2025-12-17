@@ -35,7 +35,7 @@ export class Book {
   category: BookCategory;
 
   @Column()
-  categoryId: string;
+  categoryId: number;
 
   @CreateDateColumn()
   createdAt: Date;

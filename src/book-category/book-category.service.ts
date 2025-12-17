@@ -1,48 +1,45 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { CreateBookCategoryDto } from './dto/create-book-category.dto';
-import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CreateBookCategoryDto } from './dto/create-book-category.dto';
+import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
 import { BookCategory } from './entities/book-category.entity';
 
 @Injectable()
-export class BookCategoryService implements OnModuleInit {
+export class BookCategoryService {
   constructor(
     @InjectRepository(BookCategory)
-    private repo: Repository<BookCategory>,
+    private bookCategoryRepository: Repository<BookCategory>,
   ) {}
 
-  // --- ส่วนที่ 1: โค้ดใหม่ (Data Seeding) ---
-  async onModuleInit() {
-    const count = await this.repo.count();
-    if (count === 0) {
-      console.log('Seeding Book Categories...');
-      await this.repo.save([
-        { name: 'Fiction', description: 'Stories and novels' },
-        { name: 'Technology', description: 'Computers and engineering' },
-        { name: 'History', description: 'Past events' }
-      ]);
+  async create(createBookCategoryDto: CreateBookCategoryDto): Promise<BookCategory> {
+    const category = this.bookCategoryRepository.create(createBookCategoryDto);
+    return await this.bookCategoryRepository.save(category);
+  }
+
+  async findAll(): Promise<BookCategory[]> {
+    return await this.bookCategoryRepository.find({ relations: ['books'] });
+  }
+
+  async findOne(id: number): Promise<BookCategory> {
+    const category = await this.bookCategoryRepository.findOne({
+      where: { id },
+      relations: ['books'],
+    });
+    if (!category) {
+      throw new NotFoundException(`Book category with ID ${id} not found`);
     }
+    return category;
   }
 
-  // --- ส่วนที่ 2: โค้ดเดิมที่หายไป (CRUD) ---
-  create(createBookCategoryDto: CreateBookCategoryDto) {
-    return this.repo.save(createBookCategoryDto);
+  async update(id: number, updateBookCategoryDto: UpdateBookCategoryDto): Promise<BookCategory> {
+    const category = await this.findOne(id);
+    Object.assign(category, updateBookCategoryDto);
+    return await this.bookCategoryRepository.save(category);
   }
 
-  findAll() {
-    return this.repo.find();
-  }
-
-  findOne(id: string) {
-    return this.repo.findOneBy({ id });
-  }
-
-  update(id: string, updateBookCategoryDto: UpdateBookCategoryDto) {
-    return this.repo.update(id, updateBookCategoryDto);
-  }
-
-  remove(id: string) {
-    return this.repo.delete(id);
+  async remove(id: number): Promise<void> {
+    const category = await this.findOne(id);
+    await this.bookCategoryRepository.remove(category);
   }
 }
