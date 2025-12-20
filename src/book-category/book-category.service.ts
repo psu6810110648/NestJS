@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateBookCategoryDto } from './dto/create-book-category.dto';
 import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
 import { BookCategory } from './entities/book-category.entity';
+import { StripTypeScriptTypesOptions } from 'module';
 
 @Injectable()
 export class BookCategoryService {
@@ -21,7 +22,7 @@ export class BookCategoryService {
     return await this.bookCategoryRepository.find({ relations: ['books'] });
   }
 
-  async findOne(id: number): Promise<BookCategory> {
+  async findOne(id: string): Promise<BookCategory> {
     const category = await this.bookCategoryRepository.findOne({
       where: { id },
       relations: ['books'],
@@ -32,13 +33,13 @@ export class BookCategoryService {
     return category;
   }
 
-  async update(id: number, updateBookCategoryDto: UpdateBookCategoryDto): Promise<BookCategory> {
+  async update(id: string, updateBookCategoryDto: UpdateBookCategoryDto): Promise<BookCategory> {
     const category = await this.findOne(id);
     Object.assign(category, updateBookCategoryDto);
     return await this.bookCategoryRepository.save(category);
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: string): Promise<void> {
     const category = await this.findOne(id);
     await this.bookCategoryRepository.remove(category);
   }

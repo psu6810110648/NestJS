@@ -1,23 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { Book } from '../../book/entities/book.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Book } from '../../book/entities/book.entity'; // Import Book มาเพื่อทำความสัมพันธ์
 
-@Entity('book_categories')
+@Entity()
 export class BookCategory {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column({ unique: true })
   name: string;
 
-  @Column({ nullable: true })
-  description: string;
-
+  // เพิ่มส่วนนี้เพื่อเชื่อมกลับไปที่ Book
   @OneToMany(() => Book, (book) => book.category)
   books: Book[];
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
 }

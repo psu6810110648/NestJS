@@ -8,7 +8,7 @@ import { BookModule } from './book/book.module'; // (ใส่เผื่อไ
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
-      port: 5432,
+      port: 5433,
       username: 'admin',
       password: 'password123',
       database: 'bookstore_dev',
@@ -23,3 +23,5 @@ import { BookModule } from './book/book.module'; // (ใส่เผื่อไ
   ],
 })
 export class AppModule {}
+
+

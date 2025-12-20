@@ -88,7 +88,7 @@ export class FixturesService implements OnModuleInit {
         stock: 50,
         coverUrl: '/images/books/great-gatsby.jpg',
         likeCount: 156,
-        categoryId: categories[0].id, // Fiction
+        categoryId: categories[0].id.toString(), // Fiction
       },
       {
         title: '1984',
@@ -99,7 +99,7 @@ export class FixturesService implements OnModuleInit {
         stock: 75,
         coverUrl: '/images/books/1984.jpg',
         likeCount: 203,
-        categoryId: categories[0].id, // Fiction
+        categoryId: categories[0].id.toString(), // Fiction
       },
       {
         title: 'Dune',
@@ -110,7 +110,7 @@ export class FixturesService implements OnModuleInit {
         stock: 40,
         coverUrl: '/images/books/dune.jpg',
         likeCount: 342,
-        categoryId: categories[1].id, // Science Fiction
+        categoryId: categories[1].id.toString(), // Science Fiction
       },
       {
         title: 'The Martian',
@@ -121,7 +121,7 @@ export class FixturesService implements OnModuleInit {
         stock: 60,
         coverUrl: '/images/books/martian.jpg',
         likeCount: 189,
-        categoryId: categories[1].id, // Science Fiction
+        categoryId: categories[1].id.toString(), // Science Fiction
       },
       {
         title: 'Sapiens',
@@ -132,7 +132,7 @@ export class FixturesService implements OnModuleInit {
         stock: 100,
         coverUrl: '/images/books/sapiens.jpg',
         likeCount: 427,
-        categoryId: categories[2].id, // Non-Fiction
+        categoryId: categories[2].id.toString(), // Non-Fiction
       },
       {
         title: 'Clean Code',
@@ -143,7 +143,7 @@ export class FixturesService implements OnModuleInit {
         stock: 30,
         coverUrl: '/images/books/clean-code.jpg',
         likeCount: 512,
-        categoryId: categories[3].id, // Programming
+        categoryId: categories[3].id.toString(), // Programming
       },
       {
         title: 'The Pragmatic Programmer',
@@ -154,7 +154,7 @@ export class FixturesService implements OnModuleInit {
         stock: 25,
         coverUrl: '/images/books/pragmatic-programmer.jpg',
         likeCount: 391,
-        categoryId: categories[3].id, // Programming
+        categoryId: categories[3].id.toString(), // Programming
       },
       {
         title: 'Design Patterns',
@@ -165,7 +165,7 @@ export class FixturesService implements OnModuleInit {
         stock: 20,
         coverUrl: '/images/books/design-patterns.jpg',
         likeCount: 284,
-        categoryId: categories[3].id, // Programming
+        categoryId: categories[3].id.toString(), // Programming
       },
       {
         title: 'Steve Jobs',
@@ -176,7 +176,7 @@ export class FixturesService implements OnModuleInit {
         stock: 45,
         coverUrl: '/images/books/steve-jobs.jpg',
         likeCount: 267,
-        categoryId: categories[4].id, // Biography
+        categoryId: categories[4].id.toString(), // Biography
       },
       {
         title: 'Educated',
@@ -187,7 +187,7 @@ export class FixturesService implements OnModuleInit {
         stock: 55,
         coverUrl: '/images/books/educated.jpg',
         likeCount: 198,
-        categoryId: categories[4].id, // Biography
+        categoryId: categories[4].id.toString(), // Biography
       },
     ];
 

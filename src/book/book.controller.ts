@@ -19,21 +19,22 @@ export class BookController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.bookService.findOne(+id);
+    return this.bookService.findOne(id);
+  }
+
+  @Patch(':id/like')  //เพิ่มส่วนนี้สำหรับฟีเจอร์ like
+  likeBook(@Param('id') id: string) {
+    return this.bookService.incrementLikes(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+    return this.bookService.update(id, updateBookDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.bookService.remove(+id);
+    return this.bookService.remove(id);
   }
 
-  @Post(':id/like')
-  incrementLike(@Param('id') id: string) {
-    return this.bookService.incrementLike(+id);
-  }
 }

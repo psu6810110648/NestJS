@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common'; // 1. เอา ParseIntPipe ออกจาก import
 import { BookCategoryService } from './book-category.service';
 import { CreateBookCategoryDto } from './dto/create-book-category.dto';
 import { UpdateBookCategoryDto } from './dto/update-book-category.dto';
@@ -18,17 +18,17 @@ export class BookCategoryController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: string) {
-    return this.bookCategoryService.findOne(+id);
+  findOne(@Param('id') id: string) { // 2. เอา ParseIntPipe ออก และส่ง id ตรงๆ
+    return this.bookCategoryService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateBookCategoryDto: UpdateBookCategoryDto) {
-    return this.bookCategoryService.update(+id, updateBookCategoryDto);
+  update(@Param('id') id: string, @Body() updateBookCategoryDto: UpdateBookCategoryDto) { // 3. เอา ParseIntPipe และเครื่องหมาย + ออก
+    return this.bookCategoryService.update(id, updateBookCategoryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id',ParseIntPipe) id: string) {
-    return this.bookCategoryService.remove(+id);
+  remove(@Param('id') id: string) { // 4. เอา ParseIntPipe และเครื่องหมาย + ออก
+    return this.bookCategoryService.remove(id);
   }
 }

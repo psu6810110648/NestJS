@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Book } from './entities/book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
-import { Book } from './entities/book.entity';
 
 @Injectable()
 export class BookService {
@@ -12,50 +12,40 @@ export class BookService {
     private bookRepository: Repository<Book>,
   ) {}
 
-  async create(createBookDto: CreateBookDto): Promise<Book> {
-    const book = this.bookRepository.create(createBookDto);
-    return await this.bookRepository.save(book);
+  create(createBookDto: CreateBookDto) {
+    return this.bookRepository.save(createBookDto);
   }
 
-  async findAll(): Promise<Book[]> {
-    return await this.bookRepository.find({
-      relations: ['category'],
-      select: {
-        category: {
-          id: true,
-          name: true,
-        },
-      },
-      order: {
-        id: 'ASC',
-      },
-    });
+  findAll() {
+    return this.bookRepository.find({ relations: ['category'] });
   }
 
-  async findOne(id: number): Promise<Book> {
+  // 👇 รับ id เป็น string
+  async findOne(id: string): Promise<Book> {
     const book = await this.bookRepository.findOne({
       where: { id },
       relations: ['category'],
     });
-    if (!book) {
-      throw new NotFoundException(`Book with ID ${id} not found`);
-    }
+    if (!book) throw new NotFoundException(`Book with ID ${id} not found`);
     return book;
   }
 
-  async update(id: number, updateBookDto: UpdateBookDto): Promise<Book> {
+  // 👇 รับ id เป็น string
+  async update(id: string, updateBookDto: UpdateBookDto) {
     await this.bookRepository.update(id, updateBookDto);
-    return await this.findOne(id);
+    return this.findOne(id);
   }
 
-  async remove(id: number): Promise<void> {
+  // 👇 รับ id เป็น string
+  async remove(id: string) {
     const book = await this.findOne(id);
-    await this.bookRepository.remove(book);
+    return this.bookRepository.remove(book);
   }
 
-  async incrementLike(id: number): Promise<Book> {
+  // 👇 รับ id เป็น string และใช้ชื่อ incrementLikes (มี s)
+  async incrementLikes(id: string) {
     const book = await this.findOne(id);
     book.likeCount += 1;
-    return await this.bookRepository.save(book);
+    return this.bookRepository.save(book);
   }
 }

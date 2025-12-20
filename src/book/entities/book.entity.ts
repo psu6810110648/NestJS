@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { BookCategory } from '../../book-category/entities/book-category.entity';
 
-@Entity('books')
+@Entity()
 export class Book {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   title: string;
@@ -12,34 +12,16 @@ export class Book {
   @Column()
   author: string;
 
-  @Column({ nullable: true })
-  description: string;
-
-  @Column({ type: 'decimal', precision: 10, scale: 2 })
+  @Column('decimal', { precision: 10, scale: 2 })
   price: number;
-
-  @Column({ nullable: true })
-  isbn: string;
-
-  @Column({ default: 0 })
-  stock: number;
-
-  @Column({ nullable: true })
-  coverUrl: string;
 
   @Column({ default: 0 })
   likeCount: number;
 
+  // แก้พารามิเตอร์ตัวที่ 2 ให้ชี้ไปที่ category.books
   @ManyToOne(() => BookCategory, (category) => category.books)
-  @JoinColumn({ name: 'categoryId' })
   category: BookCategory;
 
-  @Column()
-  categoryId: number;
-
-  @CreateDateColumn()
-  createdAt: Date;
-
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column({ nullable: true })
+  categoryId: string;
 }

@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, IsNumber, IsPositive, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsNumber, IsPositive, Min, IsUUID } from 'class-validator';
 
 export class CreateBookDto {
   @IsString()
@@ -30,12 +30,7 @@ export class CreateBookDto {
   @IsOptional()
   coverUrl?: string;
 
-  @IsNumber()
-  @Min(0)
-  @IsOptional()
-  likeCount?: number;
-
-  @IsNumber()
+  @IsUUID() // ใช้ IsUUID เพื่อเช็คว่าเป็นรหัสแบบ UUID จริงๆ
   @IsNotEmpty()
-  categoryId: number;
+  categoryId: string; // เปลี่ยนเป็น string
 }
