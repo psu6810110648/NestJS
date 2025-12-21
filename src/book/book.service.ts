@@ -5,6 +5,8 @@ import { Book } from './entities/book.entity';
 import { CreateBookDto } from './dto/create-book.dto';
 import { UpdateBookDto } from './dto/update-book.dto';
 
+import { User } from '../users/entities/user.entity';
+
 @Injectable()
 export class BookService {
   constructor(
@@ -38,10 +40,28 @@ export class BookService {
     const book = await this.findOne(id);
     return this.bookRepository.remove(book);
   }
+//เพิ่มฟังก์ชัน toggleLike
+  async toggleLike(bookId: string, userId: string) {
+    const book = await this.bookRepository.findOne({
+      where: { id: bookId },
+      relations: ['likedBy'],
+    });
 
-  async incrementLikes(id: string) {
-    const book = await this.findOne(id);
-    book.likeCount += 1;
+    if (!book) {
+      throw new NotFoundException(`Book with ID ${bookId} not found`);
+    }
+
+    const userIndex = book.likedBy.findIndex((user) => user.id === userId);
+
+    if (userIndex >= 0) {
+      book.likedBy.splice(userIndex, 1);
+      book.likeCount = Math.max(0, book.likeCount - 1);
+    } else {
+      const user = { id: userId } as User;
+      book.likedBy.push(user);
+      book.likeCount++;
+    }
+
     return this.bookRepository.save(book);
   }
 }
