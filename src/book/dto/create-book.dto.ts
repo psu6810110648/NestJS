@@ -32,5 +32,5 @@ export class CreateBookDto {
 
   @IsUUID() // ใช้ IsUUID เพื่อเช็คว่าเป็นรหัสแบบ UUID จริงๆ
   @IsNotEmpty()
-  categoryId: string; // เปลี่ยนเป็น string
+  categoryId: string; 
 }

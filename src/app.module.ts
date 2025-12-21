@@ -1,27 +1,32 @@
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { BookCategoryModule } from './book-category/book-category.module';
-import { BookModule } from './book/book.module'; // (ใส่เผื่อไว้เลยครับ จะได้ใช้ Book ได้ด้วย)
-
-@Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5433,
-      username: 'admin',
-      password: 'password123',
-      database: 'bookstore_dev',
-      entities: [], 
-      synchronize: true,
-      autoLoadEntities: true, // 2. แนะนำให้เติมบรรทัดนี้ ไม่งั้น DB อาจหาตารางไม่เจอ
-    }),
-    
-    // 3. เอามาใส่ตรงนี้
-    BookCategoryModule,
-    BookModule,
-  ],
-})
+import { Module } from '@nestjs/common'; 
+import { ConfigModule, ConfigService } from '@nestjs/config'; // Import ConfigService 
+import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
+ 
+@Module({ 
+  imports: [ 
+    ConfigModule.forRoot({  
+      isGlobal: true, 
+      envFilePath: '.env', 
+    }),  
+ 
+    TypeOrmModule.forRootAsync({ 
+      imports: [ConfigModule],      
+      useFactory: async (configService: ConfigService) => ({ 
+        type: 'postgres', 
+        host: configService.get<string>('DB_HOST'), 
+        port: configService.get<number>('DB_PORT'), 
+        username: configService.get<string>('DB_USERNAME'), 
+        password: configService.get<string>('DB_PASSWORD'), 
+        database: configService.get<string>('DB_DATABASE'), 
+        autoLoadEntities: true, 
+        synchronize: true, 
+      }), 
+      inject: [ConfigService],      
+    }), 
+    UsersModule, 
+    AuthModule, 
+], 
+}) 
 export class AppModule {}
-
-

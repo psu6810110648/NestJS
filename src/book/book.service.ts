@@ -20,7 +20,6 @@ export class BookService {
     return this.bookRepository.find({ relations: ['category'] });
   }
 
-  // 👇 รับ id เป็น string
   async findOne(id: string): Promise<Book> {
     const book = await this.bookRepository.findOne({
       where: { id },
@@ -30,19 +29,16 @@ export class BookService {
     return book;
   }
 
-  // 👇 รับ id เป็น string
   async update(id: string, updateBookDto: UpdateBookDto) {
     await this.bookRepository.update(id, updateBookDto);
     return this.findOne(id);
   }
 
-  // 👇 รับ id เป็น string
   async remove(id: string) {
     const book = await this.findOne(id);
     return this.bookRepository.remove(book);
   }
 
-  // 👇 รับ id เป็น string และใช้ชื่อ incrementLikes (มี s)
   async incrementLikes(id: string) {
     const book = await this.findOne(id);
     book.likeCount += 1;
